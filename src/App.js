@@ -1,25 +1,32 @@
-import logo from './logo.svg';
 import './App.css';
+import Cities from './Cities'
+import React, { useState, useEffect } from "react";
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const [data,setData]=useState('')
+   useEffect(
+     function(){
+       fetch('https://cyf-api.codeyourfuture.io/cities')
+       .then(function(obj){
+            return obj.json()
+       })
+       .then(function(data){
+         setData(data["cities"][0])
+         console.log(data["cities"][0].name)
+         console.log(data["cities"].length)
+         
+
+       })
+     },[]) 
+  if(data){
+    return (
+      <Cities db={data} />
+     )
+  }else{
+    return false;
+  }
+ 
 }
 
 export default App;
